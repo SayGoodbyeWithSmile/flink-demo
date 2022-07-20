@@ -1,4 +1,4 @@
-package com.study.wc;
+package com.study.chuci;
 
 import org.apache.flink.api.common.typeinfo.Types;
 import org.apache.flink.api.java.tuple.Tuple2;
@@ -6,21 +6,19 @@ import org.apache.flink.streaming.api.datastream.DataStreamSource;
 import org.apache.flink.streaming.api.datastream.KeyedStream;
 import org.apache.flink.streaming.api.datastream.SingleOutputStreamOperator;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
-
-import java.net.URL;
-import java.util.Arrays;
 import org.apache.flink.util.Collector;
 
+import java.util.Arrays;
+
 /**
- * @author yangjinhua
+ * @author osmondy
  */
-public class BoundedStreamWordCount {
+public class StreamWordCount {
     public static void main(String[] args) throws Exception {
         // 1. 创建流式执行环境
         StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
-        // 2. 读取文件
-        URL resource = BoundedStreamWordCount.class.getResource("/hello.txt");
-        DataStreamSource<String> lineDSS = env.readTextFile(resource.getPath());
+        // 2. 读取文本流
+        DataStreamSource<String> lineDSS = env.socketTextStream("centos32", 7777);
         // 3. 转换数据格式
         SingleOutputStreamOperator<Tuple2<String, Long>> wordAndOne = lineDSS
                 .flatMap((String line, Collector<String> words) -> {
@@ -41,3 +39,4 @@ public class BoundedStreamWordCount {
         env.execute();
     }
 }
+
