@@ -1,5 +1,6 @@
 package com.study.sink;
 
+import com.study.base.ClickSource;
 import com.study.base.Event;
 import org.apache.flink.streaming.api.datastream.DataStreamSource;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
